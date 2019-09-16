@@ -1,16 +1,39 @@
 package pl.edu.agh;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 
 public class SimpleMineSweeper implements MineSweeper {
-    private Board a;
+    private Board board;
     @Override
     public void setMineField(String mineField) throws IllegalArgumentException {
-        a=scanField(mineField);
+        board =scanField(mineField);
     }
-    private Board  scanField(String field) {
+    @Override
+    public String getHintField() throws IllegalStateException {
+        if(board==null) {
+            throw new IllegalStateException("Method call setMineFiled first");
+        }
+        List<int[]> h= new ArrayList<>();
+        int maxRow= board.getNumRows();
+        for (int i = 0; i < maxRow; i++) {
+            int maxCol= board.getNumColumns();
+            int []br=new int[maxCol];
+            for (int j = 0; j < maxCol; j++) {
+                int n=countNeighbours(i,j);
+                br[j]=n;
+            }
+            h.add(br);
+        }
+        return printHint(h);
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    private Board  scanField(String field) throws IllegalArgumentException {
         String [] rows=field.split("[\n]");
         Board fields=new Board(rows.length,rows[0].length());
 
@@ -24,62 +47,22 @@ public class SimpleMineSweeper implements MineSweeper {
         }
         return fields;
     }
-    private String printBoard(List<int[]> b) {
-        String bs="";
-        for (int i = 0; i < b.size(); i++) {
-            bs+=Arrays.toString(b.get(i))+"\n";
-
-        }
-        return bs;
-    }
-    @Override
-    public String getHintField() throws IllegalStateException {
-        List<int[]> h= new ArrayList<>();
-        int maxRow=a.getNumRows();
-        for (int i = 0; i < maxRow; i++) {
-            int maxCol=a.getNumColumns();
-            int []br=new int[maxCol];
-            for (int j = 0; j < maxCol; j++) {
-                int n=countNeighbours(i,j);
-                br[j]=n;
-            }
-            h.add(br);
-        }
-        return printHint(h);
-    }
-
-    public String printBoardRow(){
-        String bs="";
-        for (int i = 0; i < a.getNumRows(); i++) {
-            for (int j = 0; j < a.getNumColumns(); j++) {
-                if(a.isMine(i,j)) {
-                    bs+="*";
-                } else {
-                    bs+=".";
-                }
-            }
-            if(i<a.getNumRows()-1) {
-                bs += "\n";
-            }
-        }
-        return bs;
-    }
 
     private String printHint(List<int[]> h) {
-        String bs="";
+        StringBuilder stringBuilder=new StringBuilder();
         for (int i = 0; i < h.size(); i++) {
             for (int j = 0; j < h.get(i).length; j++) {
-                if(a.isMine(i,j)) {
-                    bs+="*";
+                if(board.isMine(i,j)) {
+                    stringBuilder.append("*");
                 } else {
-                    bs+=h.get(i)[j];
+                    stringBuilder.append(h.get(i)[j]);
                 }
             }
             if(i<h.size()-1) {
-                bs += "\n";
+                stringBuilder.append("\n");
             }
         }
-        return bs;
+        return stringBuilder.toString();
     }
 
     private int countNeighbours(int i, int j) {
@@ -88,7 +71,7 @@ public class SimpleMineSweeper implements MineSweeper {
         for (int k = 0; k < neighbours.length; k++) {
             int row=neighbours[k][0];
             int col=neighbours[k][1];
-            if(a.isMine(row,col)) {
+            if(board.isMine(row,col)) {
                 n++;
             }
         }
@@ -96,13 +79,20 @@ public class SimpleMineSweeper implements MineSweeper {
     }
 
     private int [][] cordNeighbourCells(int colCoord, int rowCoord) {
-
-        int [][] list={{colCoord-1, rowCoord-1},{colCoord-1, rowCoord},
-                {colCoord-1, rowCoord+1},{colCoord, rowCoord-1},{colCoord, rowCoord+1},
-                {colCoord+1, rowCoord-1},{colCoord+1, rowCoord},{colCoord+1, rowCoord+1}};
-
-        return list;
+        int [][] neighbours=new int[8][2];
+        int r=0;
+        for (int i = -1; i <=1 ; i++) {
+            for (int j = -1; j <=1 ; j++) {
+                int x=colCoord+j;
+                int y=rowCoord+i;
+                if(x==colCoord && y==rowCoord) {
+                    continue;
+                }
+                neighbours[r][0]=x;
+                neighbours[r][1]=y;
+                r++;
+            }
+        }
+        return neighbours;
     }
-
-
 }

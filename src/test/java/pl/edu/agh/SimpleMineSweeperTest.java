@@ -18,7 +18,7 @@ public class SimpleMineSweeperTest
         String tf="*...\n..*.\n....";
         MineSweeper mineSweeper= new SimpleMineSweeper();
         mineSweeper.setMineField(tf);
-        String rb=((SimpleMineSweeper)mineSweeper).printBoardRow();
+        String rb=((SimpleMineSweeper)mineSweeper).getBoard().printBoardRow();
         System.out.println("Input field");
         System.out.println(tf);
         System.out.println("Output field");

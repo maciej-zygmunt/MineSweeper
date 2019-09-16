@@ -19,12 +19,28 @@ public class Board {
 
     }
 
-    public void setMine(int row, int column) {
+    public void setMine(int row, int column) throws IllegalArgumentException{
         if (column > numColumns || row > numRows || column < 0 || row < 0) {
             throw new IllegalArgumentException("Out of the board");
         }
         board[row][column] = '*';
 
+    }
+    public String printBoardRow(){
+        String bs="";
+        for (int i = 0; i < this.getNumRows(); i++) {
+            for (int j = 0; j < this.getNumColumns(); j++) {
+                if(this.isMine(i,j)) {
+                    bs+="*";
+                } else {
+                    bs+=".";
+                }
+            }
+            if(i<this.getNumRows()-1) {
+                bs += "\n";
+            }
+        }
+        return bs;
     }
 
     public int getNumColumns() {
