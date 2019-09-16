@@ -1,10 +1,13 @@
 package pl.edu.agh;
 
+
+import pl.edu.agh.model.Neighbour;
+
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class Hints {
+class Hints {
     private final Board board;
     private final List<int[]> hints;
     public Hints(Board board) {
@@ -27,7 +30,7 @@ public class Hints {
         return h;
     }
     private int countNeighbours(int i, int j) {
-        Neighbour [] neighbours=cordNeighbourCells(i,j);
+        Neighbour[] neighbours=cordNeighbourCells(i,j);
         int n=0;
         for (Neighbour neighbour: neighbours) {
             if(board.isMine(neighbour.getRow(),
@@ -38,6 +41,14 @@ public class Hints {
         return n;
     }
 
+    /**
+     * Calculate 8 neighbours to the cell. If this is cell on edge it will produce
+     * indexes outside board bounds. Board.isMine(row,col) will return false if the index is out
+     * of bounds.
+     * @param rowCoord
+     * @param colCoord
+     * @return number of neighbouring mines.
+     */
     private  Neighbour [] cordNeighbourCells(int rowCoord, int colCoord) {
         Neighbour [] neighbours=new Neighbour[8];
         for (int i = -1,r=0; i <=1 ; i++) {

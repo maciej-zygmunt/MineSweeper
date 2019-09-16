@@ -37,4 +37,17 @@ public class SimpleMineSweeperTest
         System.out.println(b);
         Assert.assertEquals(b,tb);
     }
+    @Test(expected = IllegalArgumentException.class)
+    public void invalidInputTest() {
+        String tf="*...\n..*.*\n....";
+        MineSweeper mineSweeper= new SimpleMineSweeper();
+        mineSweeper.setMineField(tf);
+        System.out.println(mineSweeper);
+    }
+    @Test(expected = IllegalStateException.class)
+    public  void illegalStateTest() {
+        MineSweeper mineSweeper= new SimpleMineSweeper();
+        String b=mineSweeper.getHintField();
+        System.out.println(b);
+    }
 }

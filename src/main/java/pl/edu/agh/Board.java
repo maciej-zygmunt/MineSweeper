@@ -1,6 +1,6 @@
 package pl.edu.agh;
 
-public class Board {
+class Board {
     private int numColumns;
     private int numRows;
     private byte[][] board;
@@ -25,6 +25,12 @@ public class Board {
         return fields;
     }
 
+    /**
+     * Method is capable to ahndle out of bounds indexes.
+     * @param row
+     * @param column
+     * @return true if mine exists, false otherwise.
+     */
     public boolean isMine(int row, int column) {
         if (column >= numColumns || row >= numRows || column < 0 || row < 0) {
             return false;
@@ -34,7 +40,7 @@ public class Board {
     }
 
     private void setMine(int row, int column) throws IllegalArgumentException{
-        if (column > numColumns || row > numRows || column < 0 || row < 0) {
+        if (column >= numColumns || row >= numRows || column < 0 || row < 0) {
             throw new IllegalArgumentException("Out of the board");
         }
         board[row][column] = '*';
