@@ -1,2 +1,2 @@
 # MineSweeper
-Example implementation of the interface MineSweeper
+Example implementation of the  MineSweeper interface.
