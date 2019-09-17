@@ -1,32 +1,35 @@
 package pl.edu.agh;
 
-class Board {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MineField {
     private int numColumns;
     private int numRows;
-    private byte[][] board;
+    private byte[][] mineField;
 
-    private Board(int rows, int columns) {
+    private MineField(int rows, int columns) {
         this.numRows = rows;
         this.numColumns = columns;
-        board = new byte[numRows][numColumns];
+        mineField = new byte[numRows][numColumns];
     }
 
-    public static Board CreateBoard(String field) {
-        String [] rows=field.split("[\n]");
-        Board fields=new Board(rows.length,rows[0].length());
-
+    public static MineField CreateMineField(String mineFieldStr) throws IllegalArgumentException {
+        String[] rows = mineFieldStr.split("[\n]");
+        MineField mineField = new MineField(rows.length, rows[0].length());
         for (int i = 0; i < rows.length; i++) {
             for (int j = 0; j < rows[i].length(); j++) {
-                if(rows[i].charAt(j)=='*') {
-                    fields.setMine(i,j);
+                if (rows[i].charAt(j) == '*') {
+                    mineField.setMine(i, j);
                 }
             }
         }
-        return fields;
+        return mineField;
     }
 
     /**
      * Method is capable to ahndle out of bounds indexes.
+     *
      * @param row
      * @param column
      * @return true if mine exists, false otherwise.
@@ -35,33 +38,31 @@ class Board {
         if (column >= numColumns || row >= numRows || column < 0 || row < 0) {
             return false;
         }
-        return board[row][column] == '*';
-
+        return mineField[row][column] == '*';
     }
 
-    private void setMine(int row, int column) throws IllegalArgumentException{
+    private void setMine(int row, int column) throws IllegalArgumentException {
         if (column >= numColumns || row >= numRows || column < 0 || row < 0) {
             throw new IllegalArgumentException("Out of the board");
         }
-        board[row][column] = '*';
-
+        mineField[row][column] = '*';
     }
+
     @Override
-    public String toString(){
-        StringBuilder bs=new StringBuilder();
+    public String toString() {
+        List<String> rows = new ArrayList<>();
         for (int i = 0; i < this.getNumRows(); i++) {
+            StringBuilder stringBuilder = new StringBuilder();
             for (int j = 0; j < this.getNumColumns(); j++) {
-                if(this.isMine(i,j)) {
-                    bs.append("*");
+                if (this.isMine(i, j)) {
+                    stringBuilder.append("*");
                 } else {
-                    bs.append(".");
+                    stringBuilder.append(".");
                 }
             }
-            if(i<this.getNumRows()-1) {
-                bs.append("\n");
-            }
+            rows.add(stringBuilder.toString());
         }
-        return bs.toString();
+        return String.join("\n", rows);
     }
 
     public int getNumColumns() {

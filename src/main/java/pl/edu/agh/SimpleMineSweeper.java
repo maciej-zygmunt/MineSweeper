@@ -1,24 +1,23 @@
 package pl.edu.agh;
 
 public class SimpleMineSweeper implements MineSweeper {
-    private Board board;
+    private MineField mineField;
+
     @Override
     public void setMineField(String mineField) throws IllegalArgumentException {
-        board =Board.CreateBoard(mineField);
+        this.mineField = MineField.CreateMineField(mineField);
     }
+
     @Override
     public String getHintField() throws IllegalStateException {
-        if(board==null) {
+        if (mineField == null) {
             throw new IllegalStateException("Call setMineFiled first");
         }
-        return (new Hints(board)).toString();
+        return (new HintField(mineField)).toString();
     }
 
     @Override
     public String toString() {
-        return board.toString();
+        return mineField.toString();
     }
-
-
-
 }
