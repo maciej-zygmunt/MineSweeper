@@ -15,39 +15,39 @@ public class SimpleMineSweeperTest
      */
     @Test
     public void initializeMainTest() {
-        String tf="*...\n..*.\n....";
+        String testField="*...\n..*.\n....";
         MineSweeper mineSweeper= new SimpleMineSweeper();
-        mineSweeper.setMineField(tf);
-        String rb=mineSweeper.toString();
+        mineSweeper.setMineField(testField);
+        String returnedField=mineSweeper.toString();
         System.out.println("Input field");
-        System.out.println(tf);
-        System.out.println("Output field");
-        System.out.println(rb);
-        Assert.assertEquals(tf,rb);
+        System.out.println(testField);
+        System.out.println("Returned field");
+        System.out.println(returnedField);
+        Assert.assertEquals(testField,returnedField);
     }
     @Test
     public void hintMainTest() {
-        String tb="*211\n12*1\n0111";
+        String testHints="*211\n12*1\n0111";
         MineSweeper mineSweeper= new SimpleMineSweeper();
         mineSweeper.setMineField("*...\n..*.\n....");
-        String b=mineSweeper.getHintField();
+        String returnedHint=mineSweeper.getHintField();
         System.out.println("Test hints");
-        System.out.println(tb);
-        System.out.println("Hints");
-        System.out.println(b);
-        Assert.assertEquals(b,tb);
+        System.out.println(testHints);
+        System.out.println("Returned Hints");
+        System.out.println(returnedHint);
+        Assert.assertEquals(returnedHint,testHints);
     }
     @Test(expected = IllegalArgumentException.class)
-    public void invalidInputTest() {
-        String tf="*...\n..*.*\n....";
+    public void illegalArgumentTest() {
+        String testField="*...\n..*.*\n....";
         MineSweeper mineSweeper= new SimpleMineSweeper();
-        mineSweeper.setMineField(tf);
+        mineSweeper.setMineField(testField);
         System.out.println(mineSweeper);
     }
     @Test(expected = IllegalStateException.class)
     public  void illegalStateTest() {
         MineSweeper mineSweeper= new SimpleMineSweeper();
-        String b=mineSweeper.getHintField();
-        System.out.println(b);
+        String returnedHints=mineSweeper.getHintField();
+        System.out.println(returnedHints);
     }
 }
